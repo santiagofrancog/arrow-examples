@@ -10,7 +10,7 @@ object Claudia {
 
     data class Cluster(val name: String, val available: Boolean, val packageName: String? = null)
 
-    private val availableClusters: MutableList<Cluster> = mutableListOf(
+    private val clusters: MutableList<Cluster> = mutableListOf(
         Cluster("cluster-1", true),
         Cluster("cluster-2", true),
         Cluster("cluster-3", true),
@@ -24,22 +24,31 @@ object Claudia {
             return "$appName-$appVersion".right()
     }
 
-    fun lockCluster(appName: String): Either<Error, Cluster> =
-        availableClusters
-            .find { c -> c.available }
-            .rightIfNotNull { Error("Couldn't lock a cluster for $appName. All clusters are being used") }
+    fun lockCluster(appName: String): Either<Error, Cluster> {
+        val cluster = clusters
+           .find { c -> c.available }
+           .rightIfNotNull { Error("Couldn't lock a cluster for $appName. All clusters are being used") }
+        cluster.fold({}, { this.modifyCluster(it, available = false) })
+        return cluster
+    }
 
     fun deploy(cluster: Cluster, packageName: String): Either<Error, String> {
         val randomInt = Random.nextInt(1, 7)
 //        val randomInt = Random.nextInt(1, 8)
 
         return if (randomInt != 7) {
-            val lockedCluster = cluster.copy(available = false, packageName = packageName)
-            availableClusters.remove(cluster)
-            availableClusters.add(lockedCluster)
+            this.modifyCluster(cluster, cluster.available, packageName = packageName)
             "OK".right()
         } else {
             Error("Lucky number Slevin: Error deploying $packageName to ${cluster.name}").left()
         }
+    }
+
+    // Esta operación implica un side-effect.
+    // Existe una forma funcional de manejar estado y es a través del uso de la mónada State.
+    private fun modifyCluster(cluster: Cluster, available: Boolean, packageName: String? = null) {
+        clusters.remove(cluster)
+        val modifiedCluster = cluster.copy(available = available, packageName = packageName)
+        clusters.add(modifiedCluster)
     }
 }

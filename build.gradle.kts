@@ -12,7 +12,13 @@ repositories {
 }
 
 dependencies {
-    implementation("io.arrow-kt:arrow-core:1.1.2") // https://mvnrepository.com/artifact/io.arrow-kt/arrow-core
+//     https://mvnrepository.com/artifact/io.arrow-kt/arrow-core
+    implementation("io.arrow-kt:arrow-core:1.1.2")
+//    implementation("io.arrow-kt:arrow-core-data:0.12.1")
+//    implementation("io.arrow-kt:arrow-fx:0.12.1")
+//    implementation("io.arrow-kt:arrow-mtl:0.11.0")
+//    implementation("io.arrow-kt:arrow-mtl-data:0.11.0")
+//    implementation("io.arrow-kt:arrow-syntax:0.12.1")
     testImplementation(kotlin("test"))
     testImplementation("io.kotest:kotest-assertions-core-jvm:5.3.2") // https://mvnrepository.com/artifact/io.kotest/kotest-assertions-core-jvm
 }

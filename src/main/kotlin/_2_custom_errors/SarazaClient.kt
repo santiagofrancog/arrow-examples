@@ -20,7 +20,7 @@ object SarazaClient {
     }
 }
 
-sealed class SarazaError(val statusCode: Int, val msg: String) {
+sealed class SarazaError(private val statusCode: Int, private val msg: String) {
     override fun toString(): String {
         return "SarazaError(statusCode=$statusCode, msg='$msg')"
     }

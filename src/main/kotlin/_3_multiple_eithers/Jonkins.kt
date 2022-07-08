@@ -26,6 +26,12 @@ object Jonkins {
     private fun buildBackend(): Either<Error, BuildResult> =
         buildApp("back", "BACK-1")
 
+
+    /**
+     * https://hackage.haskell.org/package/base-4.16.2.0/docs/Data-Traversable.html
+     * class (Functor t, Foldable t) => Traversable t where
+     * sequenceA :: Applicative f => t (f a) -> f (t a)
+     * */
     private fun buildMailerApp(): Either<Error, List<BuildResult>> {
         val static = buildApp("mailer", "MAILER-STATIC-1")
         val apm = buildApp("mailer", "MAILER-1")
@@ -33,8 +39,15 @@ object Jonkins {
         return deploys.sequence()
     }
 
+    /**
+     * https://hackage.haskell.org/package/base-4.16.2.0/docs/Data-Traversable.html
+     * class (Functor t, Foldable t) => Traversable t where
+     * traverse :: Applicative f => (a -> f b) -> t a -> f (t b)
+     * */
     private fun buildMailerAppTraverse(): Either<Error, List<BuildResult>> {
         val versions = listOf("MAILER-STATIC-2", "MAILER-2")
+        // Versiones anteriores de arrow-kt requerían de un Applicative explícito
+        // versions.traverse(Either.applicative()) { ... }
         return versions.traverse { version -> buildApp("mailer", version) }
     }
 

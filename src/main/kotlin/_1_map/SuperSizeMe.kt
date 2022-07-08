@@ -4,7 +4,12 @@ import arrow.core.Either
 
 object SuperSizeMe {
     private const val MORGAN = "Morgan Spurlock"
-    private const val RONALD = "Ronald Mc"
+    private const val RONALD = "Ronald McBolas"
+
+    private data class PersonNotFound(val name: String) {
+        override fun toString() =
+            "Person \"$name\" not found"
+    }
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -34,9 +39,11 @@ object SuperSizeMe {
     private fun superSize(person: Person): Person =
         person.drinkMilkshakes(3).eatBurgers(7)
 
+    // Nótese como no solo estamos operando sobre el error, sino también como aprovechamos esto para
+    // dejar de manejar excepciones a izquiera y empezar a manejar objetos de dominio
     private fun handlePersonNotFound(
         personName: String,
         personOrError: Either<Error, Person>
-    ): Either<Error, Person> =
-        personOrError.mapLeft { Error("Person $personName not found") }
+    ): Either<PersonNotFound, Person> =
+        personOrError.mapLeft { PersonNotFound(personName) }
 }

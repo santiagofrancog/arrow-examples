@@ -1,14 +1,15 @@
-# Either - Motivation
+# Either: motivación
 
-The Either type represents values with two possibilities: a value of type Either a b is either Left a or Right b.
-The Either type is sometimes used to represent a value which is either correct or an error;
-by convention, the Left constructor is used to hold an error value and the Right constructor is used to hold a correct value
-(mnemonic: "right" also means "correct").
+Either como tipo de dato es la representación de valores con dos posibilidades: un valor del tipo Either<L, R> es o un Left<L> o un Right<R>.
+El Either es frecuentemente usado para representar un valor que es o bien un error o algo correcto.
+Por convención, el Left<L> es usado para encapsular el error, mientras que el Right<R> es usado para encapsular el valor correcto (del inglés "right" que también significa "correcto").
 
-To communicate these errors, it has become common practice to throw exceptions; however, exceptions are not tracked in any way, shape, or form by the compiler.
-To see what kind of exceptions (if any) a function may throw, we have to dig through the source code.
-Then, to handle these exceptions, we have to make sure we catch them at the call site.
-This all becomes even more unwieldy when we try to compose exception-throwing procedures.
-Assume we happily throw exceptions in our code. Looking at the types of the functions above, any could throw a number of exceptions -- we do not know.
-When we compose, exceptions from any of the constituent functions can be thrown.
-Moreover, they may throw the same kind of exception (e.g., IllegalArgumentException) and, thus, it gets tricky tracking exactly where an exception came from.
+El lanzar excepciones se ha convertido en una práctica común a la hora de comunicar errores, sin embargo, las excepciones no tienen un seguimiento de ningún tipo ni forma por el compilador.
+
+Entonces, para ver que tipo de excepciones existen en nuestros programas -si las hubiera-, tenemos que meternos en nuestro código y escarbar.
+
+Luego, para manejar estas excepciones, tenemos que estar seguros de atraparlas en algún punto y operar con ellas.
+
+Toda esta operatoria se vuelve más compleja cuando empezamos a componen llamadas a múltiples métodos que lanzan distintas excepciones.
+
+Además, podrían lanzar excepciones del mismo tipo pero que intentan representar un error diferente, haciendo que sea cada vez más complicado entender de dónde salen estas excepciones.
