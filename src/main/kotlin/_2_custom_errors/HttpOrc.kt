@@ -4,24 +4,27 @@ object HttpOrc {
     @JvmStatic
     fun main(args: Array<String>) {
         val pepitaResponseOrError = PepitaClient.retrieve() // forzar 200
-        println(pepitaResponseOrError); println()
-
-        val sarazaResponseOrError = SarazaClient.retrieve() // forzar 200
-        println(sarazaResponseOrError); println()
+        println("Ej. 1: $pepitaResponseOrError"); println()
 
         val pepitaTeapot = PepitaClient.retrieve(418)
-        println(pepitaTeapot); println()
+        println("Ej. 2: $pepitaTeapot"); println()
+
+        val pepitaGenericError = PepitaClient.retrieve(500)
+        println("Ej. 3: $pepitaGenericError"); println()
+
+        val sarazaResponseOrError = SarazaClient.retrieve() // forzar 200
+        println("Ej. 4: $sarazaResponseOrError"); println()
 
         val sarazaBadRequest = SarazaClient.retrieve(400)
-        println(sarazaBadRequest); println()
+        println("Ej. 5: $sarazaBadRequest"); println()
 
         val sarazaNotFound = SarazaClient.retrieve(404)
-        println(sarazaNotFound); println()
+        println("Ej. 6: $sarazaNotFound"); println()
 
         val sarazaInternalServerError = SarazaClient.retrieve(500)
-        println(sarazaInternalServerError); println()
+        println("Ej. 7: $sarazaInternalServerError"); println()
 
-        val sarazaGenericError = SarazaClient.retrieve(777)
-        println(sarazaGenericError); println()
+        val sarazaGenericError = SarazaClient.retrieve(520)
+        println("Ej. 8: $sarazaGenericError"); println()
     }
 }

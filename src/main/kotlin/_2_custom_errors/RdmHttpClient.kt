@@ -13,14 +13,19 @@ object RdmHttpClient {
         500
     )
 
+    /**
+     * Devuelve aleatoriamente un código de los definidos en HTTP_STATUS_CODES.
+     * Si el código es de la familia de los 2XX, devuelve un Either.Right con un String simulando un body
+     * Si el código es un redirect o un error, devuelve un Either.Left con un objeto de modelo representando el status code
+     * Si recibe por parámetro forcedStatus, aplica la misma lógica pero salteando el sorteo.
+     * */
     fun retrieve(forcedStatus: Int? = null): Either<HttpStatusError, String> {
-        val index = forcedStatus?.let { fs ->
-            HTTP_STATUS_CODES.find { fs == it }
-        }?.let {
-            HTTP_STATUS_CODES.indexOf(it)
-        } ?: Random.nextInt(0, HTTP_STATUS_CODES.size - 1)
+        val httpStatus = forcedStatus ?: run {
+            val index = Random.nextInt(0, HTTP_STATUS_CODES.size - 1)
+            HTTP_STATUS_CODES[index]
+        }
 
-        return HTTP_STATUS_CODES[index]
+        return httpStatus
             .rightIfNotNull { IAmATeapot }
             .filterOrOther(
                 { statusCode -> !isRedirect(statusCode) && !isError(statusCode) },

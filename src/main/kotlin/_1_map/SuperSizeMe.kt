@@ -15,11 +15,17 @@ object SuperSizeMe {
     fun main(args: Array<String>) {
         println(PeopleRepository.people); println()
 
-        val morganOrError = superSizeMorgan()
+        val morganOrError = PeopleRepository.retrievePersonByName(MORGAN)
         println(morganOrError); println()
 
-        val ronaldOrError = superSizeRonald()
+        val ronaldOrError = PeopleRepository.retrievePersonByName(RONALD)
         println(ronaldOrError); println()
+
+        val superMorganOrError = morganOrError.map { p -> superSize(p) }
+        println(superMorganOrError); println()
+
+        val superRonaldOrError = ronaldOrError.map { p -> superSize(p) }
+        println(superRonaldOrError); println()
 
         val morganOrCustomError = handlePersonNotFound(MORGAN, morganOrError)
         println(morganOrCustomError); println()
@@ -27,14 +33,6 @@ object SuperSizeMe {
         val ronaldOrCustomError = handlePersonNotFound(RONALD, ronaldOrError)
         println(ronaldOrCustomError); println()
     }
-
-    private fun superSizeMorgan(): Either<Error, Person> =
-        PeopleRepository.retrievePersonByName(MORGAN)
-            .map { p -> superSize(p) }
-
-    private fun superSizeRonald(): Either<Error, Person> =
-        PeopleRepository.retrievePersonByName(RONALD)
-            .map { p -> superSize(p) }
 
     private fun superSize(person: Person): Person =
         person.drinkMilkshakes(3).eatBurgers(7)
