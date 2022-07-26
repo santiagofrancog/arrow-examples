@@ -19,6 +19,7 @@ dependencies {
 //    implementation("io.arrow-kt:arrow-mtl:0.11.0")
 //    implementation("io.arrow-kt:arrow-mtl-data:0.11.0")
 //    implementation("io.arrow-kt:arrow-syntax:0.12.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     testImplementation(kotlin("test"))
     testImplementation("io.kotest:kotest-assertions-core-jvm:5.3.2") // https://mvnrepository.com/artifact/io.kotest/kotest-assertions-core-jvm
 }

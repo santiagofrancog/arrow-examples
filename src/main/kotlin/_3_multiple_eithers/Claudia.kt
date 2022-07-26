@@ -15,7 +15,8 @@ object Claudia {
         Cluster("cluster-1", true),
         Cluster("cluster-2", true),
         Cluster("cluster-3", true),
-        Cluster("cluster-4", true)
+        Cluster("cluster-4", true),
+        Cluster("cluster-5", true)
     )
 
     /**
